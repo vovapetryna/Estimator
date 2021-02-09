@@ -4,14 +4,14 @@ trait Authentication extends API {
   protected val root: Path[Unit] = apiPath
   import Authentication._
 
-  val login: Endpoint[dtos.AccountCredentials, api.Response[Boolean]] = postEndpoint(Login, root / "login")
+  val login: Endpoint[shared.AccountCredentials, api.Response[Boolean]] = postEndpoint(Login, root / "login")
   val logout: Endpoint[Unit, api.Response[Boolean]]                   = postEndpoint(Logout, root / "logout")
-  val registration: Endpoint[dtos.AccountInfo, api.Response[Boolean]] = postEndpoint(Registration, root / "registration")
+  val registration: Endpoint[shared.AccountInfo, api.Response[Boolean]] = postEndpoint(Registration, root / "registration")
 }
 
 object Authentication {
   object Login extends TypedEndpoint {
-    type Request  = dtos.AccountCredentials
+    type Request  = shared.AccountCredentials
     type Response = Boolean
   }
 
@@ -21,7 +21,7 @@ object Authentication {
   }
 
   object Registration extends TypedEndpoint {
-    type Request  = dtos.AccountInfo
+    type Request  = shared.AccountInfo
     type Response = Boolean
   }
 }

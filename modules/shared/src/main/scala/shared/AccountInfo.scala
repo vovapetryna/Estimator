@@ -1,4 +1,4 @@
-package dtos
+package shared
 
 import upickle.default._
 

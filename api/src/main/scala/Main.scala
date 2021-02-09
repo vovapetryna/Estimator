@@ -34,7 +34,7 @@ object Main extends App with LazyLogging {
   sys.addShutdownHook {
     binding.flatMap(_.unbind()).onComplete(_ => system.terminate())
     db.close()
-    logger.info("Shutdown.")
+    logger.info("Shutdown...")
   }
 
 }
