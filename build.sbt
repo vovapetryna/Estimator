@@ -2,13 +2,14 @@ val scalaSettings = Seq(
   scalaVersion := "2.12.4",
   version := "0.1",
   name := "Estimator",
-  organization := "vp",
+  organization := "vp"
 )
 
 val akkaVersion            = "2.6.8"
 val akkaHttpVersion        = "10.2.2"
 val akkaSessionVersion     = "0.5.5"
 val endpointAlgebraVersion = "0.5.0"
+val slickVersion           = "3.2.1"
 val commonSettings = scalaSettings ++ Seq(
   libraryDependencies ++= Seq(
     "com.typesafe.scala-logging" %% "scala-logging"  % "3.5.0",
@@ -18,21 +19,29 @@ val commonSettings = scalaSettings ++ Seq(
   )
 )
 
-lazy val core = Project(id = "core", file("modules/core"))
-  .settings(commonSettings: _*)
-
 lazy val shared = Project(id = "shared", file("modules/shared"))
   .settings(commonSettings: _*)
-  .dependsOn(core)
   .settings(
     libraryDependencies ++= Seq(
       "org.julienrf" %% "endpoints-algebra" % endpointAlgebraVersion
     )
   )
 
+lazy val core = Project(id = "core", file("modules/core"))
+  .dependsOn(shared)
+
+lazy val postgresql = Project(id = "postgresql", file("modules/postgresql"))
+  .dependsOn(core)
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.typesafe.slick"  %% "slick"          % slickVersion,
+      "com.typesafe.slick"  %% "slick-hikaricp" % slickVersion,
+      "com.github.tminglei" %% "slick-pg"       % "0.19.4"
+    )
+  )
+
 lazy val akkaExt = Project(id = "akkaExt", file("modules/akkaExt"))
-  .settings(commonSettings: _*)
-  .dependsOn(core, postgresql)
+  .dependsOn(postgresql)
   .settings(
     libraryDependencies ++= Seq(
       "com.typesafe.akka"                  %% "akka-actor-typed"           % akkaVersion,
@@ -45,19 +54,8 @@ lazy val akkaExt = Project(id = "akkaExt", file("modules/akkaExt"))
     )
   )
 
-lazy val postgresql = Project(id = "postgresql", file("modules/postgresql"))
-  .settings(commonSettings: _*)
-  .dependsOn(core)
-  .settings(
-    libraryDependencies ++= Seq(
-      "com.typesafe.slick"  %% "slick"    % "3.2.1",
-      "com.github.tminglei" %% "slick-pg" % "0.19.4"
-    )
-  )
-
 lazy val api = Project(id = "api", file("api"))
-  .settings(commonSettings: _*)
-  .dependsOn(core, postgresql, shared, akkaExt)
+  .dependsOn(akkaExt)
   .settings(
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.3.1" % "provided"
@@ -65,7 +63,6 @@ lazy val api = Project(id = "api", file("api"))
   )
 
 lazy val root = Project(id = "Estimator", base = file("."))
-  .settings(scalaSettings: _*)
   .aggregate(api)
 
 addCommandAlias("api", ";project api; ~run")

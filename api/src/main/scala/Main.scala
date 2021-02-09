@@ -1,6 +1,7 @@
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.javadsl.Behaviors
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.server.Route
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 
@@ -15,12 +16,12 @@ object Main extends App with LazyLogging {
   private val db = postgresql.PostgresProfile.api.Database.forConfig("postgresql", config)
 
   import com.softwaremill.macwire._
-  val routes = wire[EndpointRoutes].routes()
+  val handlers: Route = wire[EndpointRoutes].routes()
 
   val host = config.getString("routing.rootHost")
   val port = config.getInt("routing.apiPort")
 
-  val binding = Http().newServerAt(host, port).bind(routes)
+  val binding = Http().newServerAt(host, port).bind(handlers)
 
   binding.onComplete {
     case scala.util.Success(_) =>
