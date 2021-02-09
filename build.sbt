@@ -2,7 +2,7 @@ val scalaSettings = Seq(
   scalaVersion := "2.12.4",
   version := "0.1",
   name := "Estimator",
-  organization := "vp"
+  organization := "vp",
 )
 
 val akkaVersion            = "2.6.8"
@@ -69,4 +69,3 @@ lazy val root = Project(id = "Estimator", base = file("."))
   .aggregate(api)
 
 addCommandAlias("api", ";project api; ~run")
-addCommandAlias("test", ";project postgresql; ~run")
