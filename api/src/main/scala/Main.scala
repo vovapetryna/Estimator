@@ -15,6 +15,9 @@ object Main extends App with LazyLogging {
 
   private val db = postgresql.PostgresProfile.api.Database.forConfig("postgresql", config)
 
+//  initial migrations
+//  db.run(postgresql.AccountTable.init).onComplete(println)
+
   import com.softwaremill.macwire._
   val handlers: Route = wire[EndpointRoutes].routes()
 
