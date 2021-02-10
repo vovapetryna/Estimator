@@ -34,9 +34,10 @@ lazy val postgresql = Project(id = "postgresql", file("modules/postgresql"))
   .dependsOn(core)
   .settings(
     libraryDependencies ++= Seq(
-      "com.typesafe.slick"  %% "slick"          % slickVersion,
-      "com.typesafe.slick"  %% "slick-hikaricp" % slickVersion,
-      "com.github.tminglei" %% "slick-pg"       % "0.19.4"
+      "com.typesafe.slick"  %% "slick"               % slickVersion,
+      "com.typesafe.slick"  %% "slick-hikaricp"      % slickVersion,
+      "com.github.tminglei" %% "slick-pg"            % "0.19.4",
+      "io.github.nafg"      %% "slick-migration-api" % "0.4.2"
     )
   )
 
@@ -49,7 +50,6 @@ lazy val akkaExt = Project(id = "akkaExt", file("modules/akkaExt"))
       "com.typesafe.akka"                  %% "akka-stream"                % akkaVersion,
       "org.julienrf"                       %% "endpoints-akka-http-server" % endpointAlgebraVersion,
       "com.softwaremill.akka-http-session" %% "core"                       % akkaSessionVersion,
-      "com.softwaremill.akka-http-session" %% "jwt"                        % akkaSessionVersion,
       "de.mkammerer"                       % "argon2-jvm"                  % "2.7"
     )
   )

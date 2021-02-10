@@ -2,6 +2,7 @@ package handlers
 
 import akka.http.scaladsl.server.{Directives, Route}
 import akkahttp.directives.SessionDirectives
+import akkahttp.utils.PasswordHashing
 import com.softwaremill.session.{InMemoryRefreshTokenStorage, RefreshTokenStorage, SessionConfig, SessionManager}
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.LazyLogging
@@ -25,15 +26,23 @@ package object auth {
       new InMemoryRefreshTokenStorage[shared.Session] {
         def log(msg: String): Unit = ()
       }
+    implicit val hashing: PasswordHashing = new akkahttp.utils.PasswordHashing()
 
     def routes(): Route =
       login.request { credentials =>
-        authenticate(credentials) { _ =>
+        authenticate(credentials)(hashing) { _ =>
           complete(api.Response.Success(true))
         }
       } ~ registration.request { accountInfo =>
-        logger.info(accountInfo.toString)
-        db.run(postgresql.AccountTable.addAccount(accountInfo)).map(_ == 1).successOrAPIFailureRoute("Failed to create account")
+        val salt = akkahttp.utils.Salt.generate()
+        val hash = hashing.hashPassword(accountInfo.password, salt)
+        db.run(postgresql.AccountTable.addAccount(models.Account.fromShared(accountInfo)(hash, salt)))
+          .map(_ == 1)
+          .successOrAPIFailureRoute(conf.errorMessages.auth.accountCreate)
+      } ~ logout.request { _ =>
+        myInvalidateSession {
+          complete(api.Response.Success(true))
+        }
       }
   }
 }

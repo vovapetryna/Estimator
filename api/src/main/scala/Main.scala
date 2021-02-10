@@ -4,6 +4,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
+import slick.migration.api.PostgresDialect
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -14,9 +15,13 @@ object Main extends App with LazyLogging {
   implicit val ec: ExecutionContextExecutor = system.executionContext
 
   private val db = postgresql.PostgresProfile.api.Database.forConfig("postgresql", config)
+  implicit val dialect: PostgresDialect = new slick.migration.api.PostgresDialect
 
 //  initial migrations
 //  db.run(postgresql.AccountTable.init).onComplete(println)
+//  db.run(postgresql.TaskTable.init).onComplete(println)
+//  migrate security update
+//  db.run(postgresql.AccountTable.migrate.apply()).onComplete(println)
 
   import com.softwaremill.macwire._
   val handlers: Route = wire[EndpointRoutes].routes()
