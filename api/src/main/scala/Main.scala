@@ -14,7 +14,7 @@ object Main extends App with LazyLogging {
   implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "api")
   implicit val ec: ExecutionContextExecutor = system.executionContext
 
-  private val db = postgresql.PostgresProfile.api.Database.forConfig("postgresql", config)
+  private val db                        = postgresql.PostgresProfile.api.Database.forConfig("postgresql", config)
   implicit val dialect: PostgresDialect = new slick.migration.api.PostgresDialect
 
 //  initial migrations
@@ -24,7 +24,7 @@ object Main extends App with LazyLogging {
 //  db.run(postgresql.AccountTable.migrate.apply()).onComplete(println)
 
   import com.softwaremill.macwire._
-  val handlers: Route = wire[EndpointRoutes].routes()
+  val handlers: Route = wire[ApiRoutes].routes
 
   val host = config.getString("routing.rootHost")
   val port = config.getInt("routing.apiPort")
