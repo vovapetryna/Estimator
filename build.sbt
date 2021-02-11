@@ -1,3 +1,5 @@
+import com.typesafe.sbt.SbtNativePackager.autoImport.NativePackagerHelper._
+
 val scalaSettings = Seq(
   scalaVersion := "2.12.4",
   version := "0.1",
@@ -56,6 +58,12 @@ lazy val akkaExt = Project(id = "akkaExt", file("modules/akkaExt"))
 
 lazy val api = Project(id = "api", file("api"))
   .dependsOn(akkaExt)
+  .enablePlugins(JavaAppPackaging)
+  .settings(
+    mappings in (Compile, packageDoc) := Seq(),
+    unmanagedResourceDirectories in Compile += (sourceDirectory.value / "../../app"),
+    mappings in Universal ++= directory(sourceDirectory.value / "../../app")
+  )
   .settings(
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.3.1" % "provided"
@@ -65,4 +73,4 @@ lazy val api = Project(id = "api", file("api"))
 lazy val root = Project(id = "Estimator", base = file("."))
   .aggregate(api)
 
-addCommandAlias("api", ";project api; ~run")
+addCommandAlias("api", ";project api; stage; run")

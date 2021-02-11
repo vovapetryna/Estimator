@@ -12,7 +12,7 @@ class ApiRoutes(val db: postgresql.PostgresProfile.api.Database, val config: Con
 
   import com.softwaremill.macwire._
   val endpointsRoutesInstance: EndpointRoutes = wire[EndpointRoutes]
-  private val indexPage                       = HttpEntity(ContentTypes.`text/html(UTF-8)`, conf.indexPageSrc)
+  private val indexPage                       = HttpEntity(ContentTypes.`text/html(UTF-8)`, Index())
 
   val routes: Route =
     endpointsRoutesInstance.routes ~

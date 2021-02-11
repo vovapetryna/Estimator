@@ -1,16 +1,11 @@
 import com.typesafe.config.{Config, ConfigFactory}
 
-import scala.io.{BufferedSource, Source}
+import scala.io.Source
 
 package object conf {
   val config: Config = ConfigFactory.load().resolve()
 
-  val indexPageSrc: String = {
-    val indexPageSource: BufferedSource = Source.fromInputStream(getClass.getClassLoader.getResourceAsStream("app/index.html"))
-    val src                             = indexPageSource.getLines.mkString
-    indexPageSource.close
-    src
-  }
+  val test = Source.fromInputStream(getClass.getClassLoader.getResourceAsStream("./conf/application2.conf")).mkString
 
   object errorMessages {
     object auth {
