@@ -22,7 +22,11 @@ class ApiRoutes(val db: postgresql.PostgresProfile.api.Database, val config: Con
             indexPage
           }
         }
-      } ~ path(RemainingPath) {
+      } ~ pathPrefix("js") {
+      getFromResourceDirectory("js")
+    } ~ pathPrefix("css") {
+      getFromResourceDirectory("css")
+    }~ path(RemainingPath) {
       case p if p.startsWith(Path("api")) => reject
       case _ =>
         get {

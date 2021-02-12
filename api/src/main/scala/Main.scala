@@ -29,8 +29,6 @@ object Main extends App with LazyLogging {
   val host = config.getString("routing.rootHost")
   val port = config.getInt("routing.apiPort")
 
-  println(conf.test)
-
   val binding = Http().newServerAt(host, port).bind(handlers)
 
   binding.onComplete {
