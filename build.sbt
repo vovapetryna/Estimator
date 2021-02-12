@@ -59,7 +59,7 @@ lazy val api = Project(id = "api", file("api"))
   .dependsOn(akkaExt)
   .enablePlugins(JavaAppPackaging)
   .settings(mappings in (Compile, packageDoc) := Seq())
-  .settings(unmanagedResourceDirectories in Compile += (sourceDirectory.value / "../../app"))
+  .settings(unmanagedResourceDirectories in Compile += (sourceDirectory.value / "../../app/build"))
   .settings(
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.3.1" % "provided"
