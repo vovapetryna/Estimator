@@ -51,7 +51,8 @@ lazy val akkaExt = Project(id = "akkaExt", file("modules/akkaExt"))
       "com.typesafe.akka"                  %% "akka-stream"                % akkaVersion,
       "org.julienrf"                       %% "endpoints-akka-http-server" % endpointAlgebraVersion,
       "com.softwaremill.akka-http-session" %% "core"                       % akkaSessionVersion,
-      "de.mkammerer"                       % "argon2-jvm"                  % "2.7"
+      "de.mkammerer"                       % "argon2-jvm"                  % "2.7",
+      "ch.megard"                          %% "akka-http-cors"             % "1.1.1"
     )
   )
 

@@ -4,6 +4,3 @@
 .idea
 null
 target
-node_modules
-public
-package-lock.json

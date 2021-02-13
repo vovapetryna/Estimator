@@ -1,10 +1,13 @@
-import akka.http.scaladsl.model.Uri.Path
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
-import akka.http.scaladsl.server.{Directives, Route}
+import akka.event.Logging
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
+import akka.http.scaladsl.server._
+import akka.http.scaladsl.server.directives.DebuggingDirectives
+import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.LazyLogging
 
 import scala.concurrent.ExecutionContext
+import scala.concurrent.duration.DurationInt
 
 class ApiRoutes(val db: postgresql.PostgresProfile.api.Database, val config: Config)(implicit val ec: ExecutionContext)
     extends Directives
@@ -12,25 +15,29 @@ class ApiRoutes(val db: postgresql.PostgresProfile.api.Database, val config: Con
 
   import com.softwaremill.macwire._
   val endpointsRoutesInstance: EndpointRoutes = wire[EndpointRoutes]
-  private val indexPage                       = HttpEntity(ContentTypes.`text/html(UTF-8)`, Index())
+
+  private implicit def myRejectionHandler: RejectionHandler =
+    RejectionHandler
+      .newBuilder()
+      .handle {
+        case MissingCookieRejection(_) =>
+          complete(HttpResponse(StatusCodes.BadRequest, entity = "Request cookies are empty"))
+      }
+//      .handle {
+//        case AuthorizationFailedRejection =>
+//          complete(HttpResponse(StatusCodes.Forbidden, entity = "Authorization Failed"))
+//      }
+      .handleNotFound {
+        complete(HttpResponse(StatusCodes.NotFound, entity = "Unimplemented route"))
+      }
+      .result()
 
   val routes: Route =
-    endpointsRoutesInstance.routes ~
-      pathSingleSlash {
-        get {
-          complete {
-            indexPage
-          }
+    DebuggingDirectives.logRequestResult("api", Logging.InfoLevel)(
+      handleRejections(myRejectionHandler) {
+        withRequestTimeout(2.minutes) {
+          cors() { endpointsRoutesInstance.routes() }
         }
-      } ~ pathPrefix("public") {
-      getFromResourceDirectory("public")
-    } ~ path(RemainingPath) {
-      case p if p.startsWith(Path("api")) => reject
-      case _ =>
-        get {
-          complete {
-            indexPage
-          }
-        }
-    }
+      }
+    )
 }
