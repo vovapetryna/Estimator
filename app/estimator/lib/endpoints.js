@@ -11,20 +11,30 @@ function postRequst(uri, data) {
 }
 
 class Endpoint {
-  constructor(uri) {
+  constructor(uri, isApi) {
     this.uri = uri;
+    this.isApi = isApi;
   }
-  async sendAsync(data) {
-    return await postRequst(this.uri, data);
+
+  path() {
+    return this.uri
   }
+
   async send(data) {
-    const res = await this.sendAsync(data);
-    return (await res.json());
+    if (!this.isApi) return new Promise(() => {});
+    return postRequst(this.uri, data);
+  }
+
+  async sendBody(data) {
+    if (!this.isApi) return new Promise(() => {});
+    return this.send(data).then(res => res.json());
   }
 }
 
 export const root = "http://localhost:9001/api/v1";
 
-export const loginEndpoint = new Endpoint(`${root}/login`);
-export const logoutEndpoint = new Endpoint(`${root}/logout`);
-export const registrationEndpoint = new Endpoint(`${root}/registration`);
+export const loginEndpoint = new Endpoint(`${root}/login`, true);
+export const logoutEndpoint = new Endpoint(`${root}/logout`, true);
+export const registrationEndpoint = new Endpoint(`${root}/registration`, true);
+
+export const tasksEndpoing = new Endpoint(`/tasks`, false);

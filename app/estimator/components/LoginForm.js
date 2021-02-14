@@ -1,18 +1,29 @@
 'use strict';
 
 import React from 'react';
-import {Box, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@material-ui/core";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
-import {loginEndpoint} from "../lib/endpoints";
+import {
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Snackbar
+} from "@material-ui/core";
+import {Close, Visibility, VisibilityOff} from "@material-ui/icons";
+import {loginEndpoint, tasksEndpoing} from "../lib/endpoints";
 import {withRouter} from "next/router";
+import {authError} from "../lib/textConf";
 
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {login: '', password: '', showPassword: false};
+    this.state = {login: '', password: '', showPassword: false, authMessage: ''};
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckChange = this.handleCheckChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
   }
 
   handleChange(param) {
@@ -26,10 +37,26 @@ class LoginForm extends React.Component {
     this.setState({...this.state, showPassword: !this.state.showPassword});
   }
 
+  handleSnackBarClose(event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({...this.state, authMessage: ''});
+  }
+
   handleLogin() {
-    loginEndpoint.send(this.state).then((res) => {
-      this.props.router.push("/tasks");
-    });
+    loginEndpoint
+      .send(this.state)
+      .then(res => {
+        if (!res.ok) {
+          this.setState({...this.state, authMessage: authError})
+        }
+        this.props.router.push(tasksEndpoing.path());
+      })
+      .catch(err => {
+        this.setState({...this.state, authMessage: authError});
+        console.log(err);
+      });
   }
 
   render() {
@@ -60,6 +87,18 @@ class LoginForm extends React.Component {
         <FormControl fullWidth margin='normal'>
           <Button variant="contained" color="primary" onClick={this.handleLogin}>Sing In</Button>
         </FormControl>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                  open={this.state.authMessage !== ''}
+                  autoHideDuration={6000}
+                  onClose={this.handleSnackBarClose}
+                  message={this.state.authMessage}
+                  action={
+                    <React.Fragment>
+                      <IconButton size='small' aria-label='close' color='inherit' onClick={this.handleSnackBarClose}>
+                        <Close fontSize='small'/>
+                      </IconButton>
+                    </React.Fragment>
+                  }/>
       </Box>
     );
   }
