@@ -1,22 +1,6 @@
 'use strict';
 
-import React from 'react';
-import Head from 'next/head';
-import Layout, {siteTitle} from '../components/layout';
+import TasksPage from "../components/tasks/TasksPage";
+import {reduxPage} from "../lib/redux";
 
-export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Layout>
-        <Head>
-          <title>{siteTitle}</title>
-        </Head>
-        Tests
-      </Layout>
-    );
-  }
-}
+export default reduxPage(TasksPage)

@@ -61,22 +61,22 @@ export default class RegForm extends React.Component {
   render() {
     return (
       <Box>
-        <FormControl variant="outlined" fullWidth margin='normal'>
-          <InputLabel htmlFor="nameSignUp">Name</InputLabel>
+        <FormControl variant='outlined' fullWidth margin='normal'>
+          <InputLabel htmlFor='nameSignUp'>Name</InputLabel>
           <OutlinedInput id='nameSignUp' value={this.state.name} onChange={this.handleChange('name')} labelWidth={40}/>
         </FormControl>
-        <FormControl variant="outlined" fullWidth margin='normal'>
-          <InputLabel htmlFor="surnameSignUp">Surname</InputLabel>
+        <FormControl variant='outlined' fullWidth margin='normal'>
+          <InputLabel htmlFor='surnameSignUp'>Surname</InputLabel>
           <OutlinedInput id='surnameSignUp' value={this.state.surname} onChange={this.handleChange('surname')}
                          labelWidth={80}/>
         </FormControl>
-        <FormControl variant="outlined" fullWidth margin='normal'>
-          <InputLabel htmlFor="loginSignUp">Login</InputLabel>
+        <FormControl variant='outlined' fullWidth margin='normal'>
+          <InputLabel htmlFor='loginSignUp'>Login</InputLabel>
           <OutlinedInput id='loginSignUp' value={this.state.login} onChange={this.handleChange('login')}
                          labelWidth={50}/>
         </FormControl>
-        <FormControl variant="outlined" fullWidth margin='normal'>
-          <InputLabel htmlFor="passwordSignUp">Password</InputLabel>
+        <FormControl variant='outlined' fullWidth margin='normal'>
+          <InputLabel htmlFor='passwordSignUp'>Password</InputLabel>
           <OutlinedInput
             id='passwordSignUp'
             type={this.state.showPassword ? 'text' : 'password'}
@@ -93,7 +93,7 @@ export default class RegForm extends React.Component {
           />
         </FormControl>
         <FormControl fullWidth margin='normal'>
-          <Button variant="contained" color="primary" onClick={this.handleReg}>Sign Up</Button>
+          <Button variant='contained' color='primary' onClick={this.handleReg}>Sign Up</Button>
         </FormControl>
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                   open={this.state.authMessage !== ''}

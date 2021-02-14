@@ -11,10 +11,10 @@ import {
   OutlinedInput,
   Snackbar
 } from "@material-ui/core";
-import {Close, Visibility, VisibilityOff} from "@material-ui/icons";
-import {loginEndpoint, tasksEndpoing} from "../lib/endpoints";
-import {withRouter} from "next/router";
-import {authError} from "../lib/textConf";
+import {Close, Visibility, VisibilityOff} from '@material-ui/icons';
+import {loginEndpoint, tasksEndpoint} from '../lib/endpoints';
+import {withRouter} from 'next/router';
+import {authError} from '../lib/textConf';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class LoginForm extends React.Component {
         if (!res.ok) {
           this.setState({...this.state, authMessage: authError})
         }
-        this.props.router.push(tasksEndpoing.path());
+        this.props.router.push(tasksEndpoint.path());
       })
       .catch(err => {
         this.setState({...this.state, authMessage: authError});
@@ -62,13 +62,13 @@ class LoginForm extends React.Component {
   render() {
     return (
       <Box>
-        <FormControl variant="outlined" fullWidth margin='normal'>
-          <InputLabel htmlFor="loginSignIn">Login</InputLabel>
+        <FormControl variant='outlined' fullWidth margin='normal'>
+          <InputLabel htmlFor='loginSignIn'>Login</InputLabel>
           <OutlinedInput id='loginSignIn' value={this.state.login} onChange={this.handleChange('login')}
                          labelWidth={50}/>
         </FormControl>
-        <FormControl variant="outlined" fullWidth margin='normal'>
-          <InputLabel htmlFor="passwordSignIn">Password</InputLabel>
+        <FormControl variant='outlined' fullWidth margin='normal'>
+          <InputLabel htmlFor='passwordSignIn'>Password</InputLabel>
           <OutlinedInput
             id='passwordSignIn'
             type={this.state.showPassword ? 'text' : 'password'}
@@ -85,7 +85,7 @@ class LoginForm extends React.Component {
           />
         </FormControl>
         <FormControl fullWidth margin='normal'>
-          <Button variant="contained" color="primary" onClick={this.handleLogin}>Sing In</Button>
+          <Button variant='contained' color='primary' onClick={this.handleLogin}>Sing In</Button>
         </FormControl>
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                   open={this.state.authMessage !== ''}

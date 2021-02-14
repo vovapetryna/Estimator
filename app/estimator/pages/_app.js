@@ -23,8 +23,6 @@ export default function App({Component, pageProps}) {
             <Component {...pageProps} />
         </React.Fragment>
     );
-
-    return (<Component {...pageProps}/>);
 }
 
 App.propTypes = {

@@ -21,12 +21,10 @@ class Endpoint {
   }
 
   async send(data) {
-    if (!this.isApi) return new Promise(() => {});
     return postRequst(this.uri, data);
   }
 
   async sendBody(data) {
-    if (!this.isApi) return new Promise(() => {});
     return this.send(data).then(res => res.json());
   }
 }
@@ -37,4 +35,5 @@ export const loginEndpoint = new Endpoint(`${root}/login`, true);
 export const logoutEndpoint = new Endpoint(`${root}/logout`, true);
 export const registrationEndpoint = new Endpoint(`${root}/registration`, true);
 
-export const tasksEndpoing = new Endpoint(`/tasks`, false);
+export const tasksEndpoint = new Endpoint(`/tasks`, false);
+export const tasksAllListingEndpoint = new Endpoint(`${root}/tasks/allListing`, true);
