@@ -23,7 +23,7 @@ trait SessionDirectives extends Directives with LazyLogging {
   lazy val authRequired: Directive1[shared.Session] = requiredSession(refreshable, usingCookies)
   lazy val myInvalidateSession: Directive0          = invalidateSession(refreshable, usingCookies)
 
-  def authenticate(credentials: shared.AccountCredentials)(hashing: akkahttp.utils.PasswordHashing): Directive1[shared.Session] =
+  def authenticate(credentials: shared.account.Credentials)(hashing: akkahttp.utils.PasswordHashing): Directive1[shared.Session] =
     onSuccess(db.run(postgresql.AccountTable.getByLogin(credentials.login))).flatMap {
       case Some(account) if hashing.verifyPassword(account.password, credentials.password, account.salt) =>
         val session = account.session

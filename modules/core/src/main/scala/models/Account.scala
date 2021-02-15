@@ -5,6 +5,6 @@ case class Account(id: Long, login: String, password: String, salt: String, name
 }
 
 object Account {
-  def fromShared(accountInfo: shared.AccountInfo)(hash: String, salt: String): Account =
+  def fromInfo(accountInfo: shared.account.Info)(hash: String, salt: String): Account =
     Account(-1L, accountInfo.login, hash, salt, accountInfo.name, accountInfo.surname)
 }

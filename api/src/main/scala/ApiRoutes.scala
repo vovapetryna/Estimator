@@ -23,10 +23,10 @@ class ApiRoutes(val db: postgresql.PostgresProfile.api.Database, val config: Con
         case MissingCookieRejection(_) =>
           complete(HttpResponse(StatusCodes.BadRequest, entity = "Request cookies are empty"))
       }
-//      .handle {
-//        case AuthorizationFailedRejection =>
-//          complete(HttpResponse(StatusCodes.Forbidden, entity = "Authorization Failed"))
-//      }
+      .handle {
+        case AuthorizationFailedRejection =>
+          complete(HttpResponse(StatusCodes.Forbidden, entity = "Authorization Failed"))
+      }
       .handleNotFound {
         complete(HttpResponse(StatusCodes.NotFound, entity = "Unimplemented route"))
       }

@@ -36,7 +36,7 @@ package object auth {
       } ~ registration.request { accountInfo =>
         val salt = akkahttp.utils.Salt.generate()
         val hash = hashing.hashPassword(accountInfo.password, salt)
-        db.run(postgresql.AccountTable.addAccount(models.Account.fromShared(accountInfo)(hash, salt)))
+        db.run(postgresql.AccountTable.addAccount(models.Account.fromInfo(accountInfo)(hash, salt)))
           .map(_ == 1)
           .successOrAPIFailureRoute(conf.errorMessages.auth.accountCreate)
       } ~ logout.request { _ =>

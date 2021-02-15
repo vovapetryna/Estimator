@@ -1,6 +1,6 @@
 'use strict';
 
-function postRequst(uri, data) {
+function postRequest(uri, data) {
   return (fetch(uri, {
     method: "post",
     mode: "cors",
@@ -15,17 +15,11 @@ class Endpoint {
     this.uri = uri;
     this.isApi = isApi;
   }
-
   path() {
     return this.uri
   }
-
   async send(data) {
-    return postRequst(this.uri, data);
-  }
-
-  async sendBody(data) {
-    return this.send(data).then(res => res.json());
+    return postRequest(this.uri, data);
   }
 }
 
@@ -36,4 +30,4 @@ export const logoutEndpoint = new Endpoint(`${root}/logout`, true);
 export const registrationEndpoint = new Endpoint(`${root}/registration`, true);
 
 export const tasksEndpoint = new Endpoint(`/tasks`, false);
-export const tasksAllListingEndpoint = new Endpoint(`${root}/tasks/allListing`, true);
+export const tasksAllListingEndpoint = new Endpoint(`${root}/tasks/listing`, true);

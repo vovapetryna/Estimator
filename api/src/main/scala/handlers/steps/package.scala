@@ -6,20 +6,17 @@ import postgresql.PostgresProfile.api.Database
 
 import scala.concurrent.ExecutionContext
 
-package object tasks {
+package object steps {
   class Handler(val db: Database)(implicit ec: ExecutionContext)
-      extends api.Tasks
+    extends api.Steps
       with akkahttp.handlers.AuthorizedEndpointHandler
       with Directives
       with LazyLogging {
     def routes(implicit session: shared.Session): Route =
-      create.request { taskInfo =>
-        db.run(postgresql.TaskTable.addTask(models.Task.fromInfo(taskInfo)))
+      create.request { stepInfo =>
+        db.run(postgresql.StepTable.addStep(models.Step.fromInfo(stepInfo)))
           .map(_.toShort)
-          .successOrAPIFailureRoute(conf.errorMessages.tasks.taskCreate)
-      } ~ allListing.request { _ =>
-        db.run(postgresql.TaskTable.getByAccountWithSteps(session.userId))
-          .successOrAPIFailureRoute(conf.errorMessages.tasks.taskCreate)
+          .successOrAPIFailureRoute(conf.errorMessages.steps.stepCreate)
       }
   }
 }

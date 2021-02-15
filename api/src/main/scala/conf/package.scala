@@ -11,6 +11,10 @@ package object conf {
     }
     object tasks {
       val taskCreate: String = config.getString("errorMessages.tasks.taskCreate")
+      val notFound: String = config.getString("errorMessages.tasks.notFound")
+    }
+    object steps {
+      val stepCreate: String = config.getString("errorMessages.steps.stepCreate")
     }
   }
 }
