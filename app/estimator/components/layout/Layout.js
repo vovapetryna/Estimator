@@ -1,6 +1,6 @@
 'use strict';
 
-import styles from './layout.module.css';
+import styles from './Layout.module.css';
 import Head from 'next/head';
 
 export const siteTitle = 'Estimator';

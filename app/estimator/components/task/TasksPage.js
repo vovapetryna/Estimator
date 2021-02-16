@@ -2,13 +2,14 @@
 
 import React from 'react';
 import Head from 'next/head';
-import Layout, {siteTitle} from '../../components/layout';
+import Layout, {siteTitle} from '../layout/Layout';
 import {connect} from 'react-redux';
-import {namespaceConfig} from "fast-redux";
-import {bindActionCreators} from "redux";
-import {addTaskR, clearTaskR, setTasksR} from "./TasksActions";
-import {allTasksListing} from "./TaskFetchers";
-import Task from "./Task";
+import {namespaceConfig} from 'fast-redux';
+import {bindActionCreators} from 'redux';
+import {addTaskR, clearTaskR, setTasksR} from './TasksActions';
+import {allTasksListing} from './TaskFetchers';
+import Task from './Task';
+import Menu from "../menu/Menu";
 
 const defaultState = {tasks: []}
 const {action: actionCreator, getState: getTasksPageState} = namespaceConfig('tasks', defaultState);
@@ -36,8 +37,9 @@ class TasksPage extends React.Component {
         <Head>
           <title>{siteTitle}</title>
         </Head>
-        {this.props.tasks.map(task => (
-          <Task key={task.id} name={task.name} desc={task.description}/>
+        <Menu/>
+        {this.props.tasks.map(taskEntity => (
+          <Task key={taskEntity.task.id} taskEntity={taskEntity}/>
         ))}
       </Layout>
     );
@@ -47,7 +49,9 @@ class TasksPage extends React.Component {
 function mapStateToProps(state) {
   return getTasksPageState(state);
 }
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({addTasks, clearTasks, setTasks}, dispatch);
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(TasksPage);

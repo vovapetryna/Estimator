@@ -1,7 +1,7 @@
 package models
 
 case class Account(id: Long, login: String, password: String, salt: String, name: String, surname: String) {
-  def session: shared.Session = shared.Session(id, login)
+  def session: shared.Session = shared.Session(id, login, name, surname)
 }
 
 object Account {

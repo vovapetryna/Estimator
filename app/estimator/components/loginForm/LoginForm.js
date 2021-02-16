@@ -12,9 +12,9 @@ import {
   Snackbar
 } from "@material-ui/core";
 import {Close, Visibility, VisibilityOff} from '@material-ui/icons';
-import {loginEndpoint, tasksEndpoint} from '../lib/endpoints';
+import {loginEndpoint, tasksPageEndpoint} from '../../lib/endpoints';
 import {withRouter} from 'next/router';
-import {authError} from '../lib/textConf';
+import {authError} from '../../lib/textConf';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class LoginForm extends React.Component {
         if (!res.ok) {
           this.setState({...this.state, authMessage: authError})
         }
-        this.props.router.push(tasksEndpoint.path());
+        this.props.router.push(tasksPageEndpoint.path());
       })
       .catch(err => {
         this.setState({...this.state, authMessage: authError});
@@ -85,7 +85,7 @@ class LoginForm extends React.Component {
           />
         </FormControl>
         <FormControl fullWidth margin='normal'>
-          <Button variant='contained' color='primary' onClick={this.handleLogin}>Sing In</Button>
+          <Button variant='contained' color='primary' onClick={this.handleLogin}>Sign In</Button>
         </FormControl>
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                   open={this.state.authMessage !== ''}

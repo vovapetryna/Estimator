@@ -12,8 +12,8 @@ import {
   Snackbar
 } from "@material-ui/core";
 import {Close, Visibility, VisibilityOff} from "@material-ui/icons";
-import {registrationEndpoint} from "../lib/endpoints";
-import {regError, regSuccess} from "../lib/textConf";
+import {registrationEndpoint} from "../../lib/endpoints";
+import {regError, regSuccess} from "../../lib/textConf";
 
 export default class RegForm extends React.Component {
   constructor(props) {
