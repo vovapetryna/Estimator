@@ -2,9 +2,9 @@
 
 import {tasksAllListingEndpoint} from "../../lib/endpoints";
 
-export function allTasksListing() {
+export function allTasksListing(cookies = '') {
   return tasksAllListingEndpoint
-    .send({})
+    .send({}, cookies)
     .then(res => res.json())
     .then(res => res.success)
     .catch(err => console.log(err));

@@ -2,6 +2,7 @@ import akka.event.Logging
 import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server._
 import akka.http.scaladsl.server.directives.DebuggingDirectives
+import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.LazyLogging
 
@@ -35,7 +36,7 @@ class ApiRoutes(val db: postgresql.PostgresProfile.api.Database, val config: Con
     DebuggingDirectives.logRequestResult("api", Logging.InfoLevel)(
       handleRejections(myRejectionHandler) {
         withRequestTimeout(2.minutes) {
-          endpointsRoutesInstance.routes()
+          cors() { endpointsRoutesInstance.routes() }
         }
       }
     )

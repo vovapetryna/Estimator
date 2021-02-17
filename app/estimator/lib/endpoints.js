@@ -1,11 +1,14 @@
 'use strict';
 
-function postRequest(uri, data) {
+function postRequest(uri, data, cookies = '') {
   return (fetch(uri, {
     method: "post",
     mode: "cors",
-    headers: {'Content-Type': 'application/json'},
-    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': cookies
+    },
+    credentials: 'include',
     body: JSON.stringify(data)
   }));
 }
@@ -20,12 +23,12 @@ class Endpoint {
     return this.uri
   }
 
-  async send(data) {
-    return postRequest(this.uri, data);
+  async send(data, cookies = '') {
+    return postRequest(this.uri, data, cookies);
   }
 }
 
-export const root = "/api";
+export const root = "http://localhost:9001/api/v1";
 
 export const loginPageEndpoint = new Endpoint('/', false);
 export const loginEndpoint = new Endpoint(`${root}/login`, true);

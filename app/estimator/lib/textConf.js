@@ -1,30 +1,17 @@
 'use strict';
 
-import cookieCutter from 'cookie-cutter';
+import cookie from 'cookie';
 
 export const authError = 'Authorization failed';
 export const regError = 'Registration failed';
-
 export const regSuccess = 'Registration succeeded, please sign in';
 
-function getSession() {
-  const sessionStr = cookieCutter.get('_sessiondata');
-  const left = sessionStr.indexOf("{");
-  return JSON.parse(sessionStr.slice(left));
-}
+export const taskFetchError = 'Error while task fetching';
 
-export function userName() {
-  return getSession().name;
-}
+export const sessionGetError = 'Error while trying to extract session';
 
-export function userSurname() {
-  return getSession().surname;
-}
-
-export function userLogin() {
-  return getSession().login;
-}
-
-export function userId() {
-  return getSession().userId;
+export function parseCookieToSession(cookieRaw) {
+  const sessionRaw = cookie.parse(cookieRaw)['_sessiondata'];
+  const left = sessionRaw.indexOf("{");
+  return JSON.parse(sessionRaw.slice(left));
 }
