@@ -16,6 +16,7 @@ package object tasks {
       create.request { taskInfo =>
         db.run(postgresql.TaskTable.addTask(models.Task.fromInfo(taskInfo)))
           .map(_.toShort)
+          .map(t => shared.task.WithSteps(t, Seq()))
           .successOrAPIFailureRoute(conf.errorMessages.tasks.taskCreate)
       } ~ allListing.request { _ =>
         db.run(postgresql.TaskTable.getByAccountWithSteps(session.userId))

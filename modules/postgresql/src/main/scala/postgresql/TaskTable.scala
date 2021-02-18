@@ -38,6 +38,6 @@ object TaskTable {
       steps <- StepTable.byTasksQ(byAccount(accountId).map(_.id)).result
       tasks <- getByAccount(accountId)
       stepsMap = steps.groupBy(_.taskId)
-    } yield tasks.map(t => shared.task.WithSteps(t.toShort, stepsMap(t.id).map(_.toShort)))
+    } yield tasks.map(t => shared.task.WithSteps(t.toShort, stepsMap.getOrElse(t.id, Seq()).map(_.toShort)))
 
 }

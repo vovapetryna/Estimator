@@ -14,7 +14,7 @@ import {
 import {Close, Visibility, VisibilityOff} from '@material-ui/icons';
 import {loginEndpoint, tasksPageEndpoint} from '../../lib/endpoints';
 import {withRouter} from 'next/router';
-import {authError} from '../../lib/textConf';
+import {authText} from '../../lib/textConf';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -49,12 +49,12 @@ class LoginForm extends React.Component {
       .send(this.state)
       .then(res => {
         if (!res.ok) {
-          this.setState({...this.state, authMessage: authError})
+          this.setState({...this.state, authMessage: authText.authError})
         }
         this.props.router.push(tasksPageEndpoint.path());
       })
       .catch(err => {
-        this.setState({...this.state, authMessage: authError});
+        this.setState({...this.state, authMessage: authText.authError});
         console.log(err);
       });
   }
@@ -63,12 +63,12 @@ class LoginForm extends React.Component {
     return (
       <Box>
         <FormControl variant='outlined' fullWidth margin='normal'>
-          <InputLabel htmlFor='loginSignIn'>Login</InputLabel>
+          <InputLabel htmlFor='loginSignIn'>{authText.login}</InputLabel>
           <OutlinedInput id='loginSignIn' value={this.state.login} onChange={this.handleChange('login')}
                          labelWidth={50}/>
         </FormControl>
         <FormControl variant='outlined' fullWidth margin='normal'>
-          <InputLabel htmlFor='passwordSignIn'>Password</InputLabel>
+          <InputLabel htmlFor='passwordSignIn'>{authText.password}</InputLabel>
           <OutlinedInput
             id='passwordSignIn'
             type={this.state.showPassword ? 'text' : 'password'}
@@ -85,7 +85,7 @@ class LoginForm extends React.Component {
           />
         </FormControl>
         <FormControl fullWidth margin='normal'>
-          <Button variant='contained' color='primary' onClick={this.handleLogin}>Sign In</Button>
+          <Button variant='contained' color='primary' onClick={this.handleLogin}>{authText.signIn}</Button>
         </FormControl>
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                   open={this.state.authMessage !== ''}

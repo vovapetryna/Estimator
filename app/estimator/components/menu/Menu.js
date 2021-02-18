@@ -6,7 +6,7 @@ import {AccountCircle, Add, ExitToApp} from "@material-ui/icons";
 import styles from './Menu.module.css';
 import {loginPageEndpoint, logoutEndpoint} from "../../lib/endpoints";
 import {withRouter} from "next/router";
-import {addTaskA} from "../../redux/actions/tasksActions";
+import {addTaskA, openCloseTaskDialogA} from "../../redux/actions/tasksActions";
 import {connect} from "react-redux";
 
 function Menu(props) {
@@ -22,9 +22,7 @@ function Menu(props) {
   }
   return (
     <Grid container justify='center'>
-      <Box m={1}><Fab color='primary' aria-label='add' size={'medium'}
-                      onClick={() => props.addTask({task: {id: 5, name: 'New', description: 'empty'}, steps: [{}]})}>
-        <Add/></Fab></Box>
+      <Box m={1}><Fab color='primary' aria-label='add' size={'medium'} onClick={props.openCloseTaskDialog}><Add/></Fab></Box>
       <Box m={1} alignItems={'center'} display={'flex'}>
         <Fab color='primary' aria-label='account' size={'medium'} variant={'extended'}>
           <AccountCircle
@@ -44,7 +42,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return ({
-      addTask: (task) => dispatch(addTaskA(task))
+      openCloseTaskDialog: () => dispatch(openCloseTaskDialogA()),
     }
   );
 };

@@ -37,3 +37,4 @@ export const registrationEndpoint = new Endpoint(`${root}/registration`, true);
 
 export const tasksPageEndpoint = new Endpoint(`/tasks`, false);
 export const tasksAllListingEndpoint = new Endpoint(`${root}/tasks/listing`, true);
+export const tasksCreateEndpoint = new Endpoint(`${root}/tasks/create`, true);

@@ -7,14 +7,14 @@ trait Tasks extends API {
   import Tasks._
 
   val allListing: Endpoint[shared.task.FetchData, api.Response[Seq[shared.task.WithSteps]]] = postEndpoint(Listing, root / "listing")
-  val create: Endpoint[shared.task.Info, api.Response[shared.task.Short]]                   = postEndpoint(Create, root / "create")
+  val create: Endpoint[shared.task.Info, api.Response[shared.task.WithSteps]]               = postEndpoint(Create, root / "create")
   val start: Endpoint[Long, api.Response[Boolean]]                                          = postEndpoint(Start, root / "start")
 }
 
 object Tasks {
   object Create extends TypedEndpoint {
     type Request  = shared.task.Info
-    type Response = shared.task.Short
+    type Response = shared.task.WithSteps
   }
 
   object Start extends TypedEndpoint {

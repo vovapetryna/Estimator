@@ -1,14 +1,32 @@
 'use strict';
 
 import cookie from 'cookie';
+import React from "react";
 
-export const authError = 'Authorization failed';
-export const regError = 'Registration failed';
-export const regSuccess = 'Registration succeeded, please sign in';
+export const utilText = {
+  sessionGetError: 'Error while trying to extract session'
+}
 
-export const taskFetchError = 'Error while task fetching';
+export const taskText = {
+  createDialogTitle: 'Create Task',
+  newName: 'Name',
+  newDescription: 'Description',
 
-export const sessionGetError = 'Error while trying to extract session';
+  fetchError: 'Error while task fetching',
+}
+
+export const authText = {
+  login: 'Login',
+  password: 'Password',
+  signIn: 'Sign In',
+  signUp: 'Sign Up',
+  name: 'Name',
+  surname: 'Surname',
+
+  authError: 'Authorization failed',
+  regError: 'Registration failed',
+  regSuccess: 'Registration succeeded, please sign in'
+}
 
 export function parseCookieToSession(cookieRaw) {
   const sessionRaw = cookie.parse(cookieRaw)['_sessiondata'];

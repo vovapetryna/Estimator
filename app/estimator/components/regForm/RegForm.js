@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import {Close, Visibility, VisibilityOff} from "@material-ui/icons";
 import {registrationEndpoint} from "../../lib/endpoints";
-import {regError, regSuccess} from "../../lib/textConf";
+import {authText} from "../../lib/textConf";
 
 export default class RegForm extends React.Component {
   constructor(props) {
@@ -48,12 +48,12 @@ export default class RegForm extends React.Component {
       .send(this.state)
       .then(res => {
         if (!res.ok) {
-          this.setState({...this.state, authMessage: regError})
+          this.setState({...this.state, authMessage: authText.regError})
         }
-        this.setState({...this.state, authMessage: regSuccess})
+        this.setState({...this.state, authMessage: authText.regSuccess})
       })
       .catch(err => {
-        this.setState({...this.state, authMessage: regError});
+        this.setState({...this.state, authMessage: authText.regError});
         console.log(err);
       });
   }
@@ -62,21 +62,21 @@ export default class RegForm extends React.Component {
     return (
       <Box>
         <FormControl variant='outlined' fullWidth margin='normal'>
-          <InputLabel htmlFor='nameSignUp'>Name</InputLabel>
+          <InputLabel htmlFor='nameSignUp'>{authText.name}</InputLabel>
           <OutlinedInput id='nameSignUp' value={this.state.name} onChange={this.handleChange('name')} labelWidth={40}/>
         </FormControl>
         <FormControl variant='outlined' fullWidth margin='normal'>
-          <InputLabel htmlFor='surnameSignUp'>Surname</InputLabel>
+          <InputLabel htmlFor='surnameSignUp'>{authText.surname}</InputLabel>
           <OutlinedInput id='surnameSignUp' value={this.state.surname} onChange={this.handleChange('surname')}
                          labelWidth={80}/>
         </FormControl>
         <FormControl variant='outlined' fullWidth margin='normal'>
-          <InputLabel htmlFor='loginSignUp'>Login</InputLabel>
+          <InputLabel htmlFor='loginSignUp'>{authText.login}</InputLabel>
           <OutlinedInput id='loginSignUp' value={this.state.login} onChange={this.handleChange('login')}
                          labelWidth={50}/>
         </FormControl>
         <FormControl variant='outlined' fullWidth margin='normal'>
-          <InputLabel htmlFor='passwordSignUp'>Password</InputLabel>
+          <InputLabel htmlFor='passwordSignUp'>{authText.password}</InputLabel>
           <OutlinedInput
             id='passwordSignUp'
             type={this.state.showPassword ? 'text' : 'password'}
@@ -93,7 +93,7 @@ export default class RegForm extends React.Component {
           />
         </FormControl>
         <FormControl fullWidth margin='normal'>
-          <Button variant='contained' color='primary' onClick={this.handleReg}>Sign Up</Button>
+          <Button variant='contained' color='primary' onClick={this.handleReg}>{authText.signUp}</Button>
         </FormControl>
         <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                   open={this.state.authMessage !== ''}

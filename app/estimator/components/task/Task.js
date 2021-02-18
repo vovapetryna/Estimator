@@ -1,27 +1,21 @@
 'use strict';
 
-import React from "react";
-import {Card, CardContent, List, Typography} from "@material-ui/core";
-import Step from "../step/Step";
+import React from 'react';
+import {Box, Card, CardContent, List, Typography} from '@material-ui/core';
+import Step from '../step/Step';
 
-export default class Task extends React.Component {
-  constructor(props) {
-    super(props);
-    this.task = props.taskEntity.task;
-    this.steps = props.taskEntity.steps;
-  }
-
-  render() {
-    return (
+export default function Task(props) {
+  return (
+    <Box mb={1}>
       <Card>
         <CardContent>
-          <Typography variant="h5" component="h2">{this.task.name}</Typography>
-          <Typography color="textSecondary">{this.task.description}</Typography>
+          <Typography variant='h5' component='h2'>{props.taskEntity.task.name}</Typography>
+          <Typography color='textSecondary'>{props.taskEntity.task.description}</Typography>
           <List dense={true}>
-            {this.steps.map(step => <Step key={step.id} step={step}/>)}
+            {props.taskEntity.steps.map(step => <Step key={step.id} step={step}/>)}
           </List>
         </CardContent>
       </Card>
-    );
-  }
+    </Box>
+  );
 }

@@ -4,7 +4,6 @@ import React from 'react';
 import Head from 'next/head';
 import Layout, {siteTitle} from '../components/layout/Layout';
 import {connect} from 'react-redux';
-import {allTasksListing} from "../components/task/TaskFetchers";
 import {setTasksA} from "../redux/actions/tasksActions";
 import Menu from "../components/menu/Menu";
 import Task from "../components/task/Task";
@@ -12,6 +11,8 @@ import {setSessionA} from "../redux/actions/sessionActions";
 import {setErrorA} from "../redux/actions/utilsActions";
 import {initializeStore} from "../redux/store";
 import {parseCookieToSession} from "../lib/textConf";
+import TaskDialog from "../components/taskDialog/taskDialog";
+import {allTasksListing} from "../lib/fetchers";
 
 function TasksPage(props) {
   return (
@@ -20,6 +21,7 @@ function TasksPage(props) {
         <title>{siteTitle}</title>
       </Head>
       <Menu/>
+      <TaskDialog/>
       {props.tasks.map(taskEntity => (
         <Task key={taskEntity.task.id} taskEntity={taskEntity}/>
       ))}
