@@ -21,8 +21,7 @@ class EndpointRoutes(val db: postgresql.PostgresProfile.api.Database, val config
   import com.softwaremill.macwire._
   def routes(): Route =
     authRequired { implicit session =>
-      wire[handlers.tasks.Handler].routes ~
-        wire[handlers.steps.Handler].routes
+      wire[handlers.tasks.Handler].routes
     } ~
       wire[handlers.auth.Handler].routes()
 }

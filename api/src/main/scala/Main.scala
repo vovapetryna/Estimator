@@ -19,8 +19,12 @@ object Main extends App with LazyLogging {
 
 //  initial migrations
 //  db.run(postgresql.AccountTable.init).onComplete(println)
-//  db.run(postgresql.TaskTable.init).onComplete(println)
-//  db.run(postgresql.StepTable.init).onComplete(println)
+//  db.run(for {
+//      _ <- postgresql.TaskTable.init
+//      _ <- postgresql.TaskRelationTable.init
+//      _ <- postgresql.TaskActionTable.init
+//    } yield Unit)
+//    .onComplete(println)
 //  migrate security update
 //  db.run(postgresql.AccountTable.migrate.apply()).onComplete(println)
 

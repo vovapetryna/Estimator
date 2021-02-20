@@ -1,0 +1,13 @@
+.introText {
+    margin-top: 2rem;
+    font-size: 2em;
+    color: darkgray;
+}
+
+.arrowBox {
+    fill: #cfcfcf;
+    height: 3rem;
+    width: 3rem;
+    transform: rotate(120deg) translateY(-0.5rem);
+    margin-right: 1rem;
+}

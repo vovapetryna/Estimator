@@ -5,11 +5,13 @@ import upickle.default._
 case class Short(
     id: Long,
     accountId: Long,
+    isPrimary: Boolean,
     name: String,
     description: String,
-    startTime: java.time.LocalDateTime,
-    endTime: java.time.LocalDateTime
-)
+    estimate: java.time.Duration,
+) {
+  lazy val pk: (Boolean, Long, Long) = (isPrimary, accountId, id)
+}
 
 object Short {
   import shared.implicits._

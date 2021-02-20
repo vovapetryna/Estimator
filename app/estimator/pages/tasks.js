@@ -6,13 +6,14 @@ import Layout, {siteTitle} from '../components/layout/Layout';
 import {connect} from 'react-redux';
 import {setTasksA} from "../redux/actions/tasksActions";
 import Menu from "../components/menu/Menu";
-import Task from "../components/task/Task";
 import {setSessionA} from "../redux/actions/sessionActions";
 import {setErrorA} from "../redux/actions/utilsActions";
 import {initializeStore} from "../redux/store";
 import {parseCookieToSession} from "../lib/textConf";
-import TaskDialog from "../components/taskDialog/taskDialog";
+import TaskDialog from "../components/taskDialog/TaskDialog";
 import {allTasksListing} from "../lib/fetchers";
+import TaskGroup from "../components/taskGroup/TaskGroup";
+import IntroText from "../components/IntroText/IntroText";
 
 function TasksPage(props) {
   return (
@@ -22,10 +23,10 @@ function TasksPage(props) {
       </Head>
       <Menu/>
       <TaskDialog/>
-      {props.tasks.map(taskEntity => (
-        <Task key={taskEntity.task.id} taskEntity={taskEntity}/>
-      ))}
-
+      {(props.tasks.length === 0) ? <IntroText/> :
+        props.tasks.map(taskEntity => (
+          <TaskGroup key={taskEntity.task.id} taskEntity={taskEntity}/>
+        ))}
     </Layout>
   );
 }

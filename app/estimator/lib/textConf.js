@@ -4,11 +4,14 @@ import cookie from 'cookie';
 import React from "react";
 
 export const utilText = {
-  sessionGetError: 'Error while trying to extract session'
+  sessionGetError: 'Error while trying to extract session',
+  startMessage: 'Click Here to Start )',
 }
 
 export const taskText = {
   createDialogTitle: 'Create Task',
+  createDialogDetails: '(Set task Estimate)',
+  submitTaskCreation: 'Submit',
   newName: 'Name',
   newDescription: 'Description',
 

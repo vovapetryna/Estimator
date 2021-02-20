@@ -1,7 +1,5 @@
 import com.typesafe.config.{Config, ConfigFactory}
 
-import scala.io.Source
-
 package object conf {
   val config: Config = ConfigFactory.load().resolve()
 
@@ -10,11 +8,11 @@ package object conf {
       val accountCreate: String = config.getString("errorMessages.auth.accountCreate")
     }
     object tasks {
-      val taskCreate: String = config.getString("errorMessages.tasks.taskCreate")
-      val notFound: String = config.getString("errorMessages.tasks.notFound")
-    }
-    object steps {
-      val stepCreate: String = config.getString("errorMessages.steps.stepCreate")
+      val create: String       = config.getString("errorMessages.tasks.create")
+      val notFound: String     = config.getString("errorMessages.tasks.notFound")
+      val addSecondary: String = config.getString("errorMessages.tasks.addSecondary")
+      val edit: String         = config.getString("errorMessages.tasks.edit")
+      val deleteTask: String   = config.getString("errorMessages.tasks.deleteTask")
     }
   }
 }

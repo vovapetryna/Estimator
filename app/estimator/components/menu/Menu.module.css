@@ -1,3 +1,9 @@
 .withRightMargin {
     margin-right: 0.5rem;
 }
+
+.fixedPosition {
+    left: auto;
+    right: auto;
+    position: sticky;
+}

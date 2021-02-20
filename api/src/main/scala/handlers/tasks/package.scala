@@ -16,11 +16,23 @@ package object tasks {
       create.request { taskInfo =>
         db.run(postgresql.TaskTable.addTask(models.Task.fromInfo(taskInfo)))
           .map(_.toShort)
-          .map(t => shared.task.WithSteps(t, Seq()))
-          .successOrAPIFailureRoute(conf.errorMessages.tasks.taskCreate)
+          .successOrAPIFailureRoute(conf.errorMessages.tasks.create)
+      } ~ addSecondary.request { taskInfo =>
+        db.run(for {
+            addedTask <- postgresql.TaskTable.addTask(models.Task.fromInfo(taskInfo))
+            _         <- postgresql.TaskRelationTable.addRelation(models.TaskRelation(taskInfo.primaryTaskId.get, addedTask.id))
+          } yield addedTask)
+          .map(_.toShort)
+          .successOrAPIFailureRoute(conf.errorMessages.tasks.addSecondary)
+      } ~ edit.request { taskShort =>
+        db.run(postgresql.TaskTable.update(taskShort)).map(_ == 1).successOrAPIFailureRoute(conf.errorMessages.tasks.edit)
+      } ~ deleteTask.request { taskShort =>
+        db.run(postgresql.TaskTable.deleteTask(taskShort))
+          .map(_ == 1)
+          .successOrAPIFailureRoute(conf.errorMessages.tasks.deleteTask)
       } ~ allListing.request { _ =>
-        db.run(postgresql.TaskTable.getByAccountWithSteps(session.userId))
-          .successOrAPIFailureRoute(conf.errorMessages.tasks.taskCreate)
+        db.run(postgresql.TaskTable.getByAccountWithSecondaryGrouped(session.userId))
+          .successOrAPIFailureRoute(conf.errorMessages.tasks.create)
       }
   }
 }

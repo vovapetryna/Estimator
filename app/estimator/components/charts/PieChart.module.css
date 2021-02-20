@@ -1,0 +1,7 @@
+.smallBox {
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    padding-right: 1rem;
+    padding-top: 1rem;
+}
