@@ -1,6 +1,6 @@
 val scalaSettings = Seq(
   scalaVersion := "2.12.4",
-  version := "0.1",
+  version := "0.2",
   name := "Estimator",
   organization := "vp"
 )
@@ -58,7 +58,13 @@ lazy val akkaExt = Project(id = "akkaExt", file("modules/akkaExt"))
 
 lazy val api = Project(id = "api", file("api"))
   .dependsOn(akkaExt)
-  .enablePlugins(JavaAppPackaging)
+  .enablePlugins(JavaAppPackaging, DockerPlugin)
+  .settings(
+    dockerBaseImage := "openjdk:11",
+    dockerRepository := Some("vovapetryna"),
+    dockerExposedPorts := Seq(9001, 9001),
+    version in Docker := "0.1.1-SNAPSHOT"
+  )
   .settings(mappings in (Compile, packageDoc) := Seq())
   .settings(unmanagedResourceDirectories in Compile += (sourceDirectory.value / "../../app/build"))
   .settings(

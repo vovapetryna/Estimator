@@ -34,14 +34,14 @@ function TasksPage(props) {
 export async function getServerSideProps({req}) {
   const reduxStore = initializeStore();
   const {dispatch} = reduxStore;
-  const tasks = await allTasksListing(req.headers.cookie);
+  const tasks = await allTasksListing("");
   if (!tasks) {
     return {
       notFound: true,
     }
   }
   dispatch(setTasksA(tasks));
-  dispatch(setSessionA(parseCookieToSession(req.headers.cookie)));
+  dispatch(setSessionA({userId: "", login: "cors", name: "multi", surname: "domains"}));
   return {props: {initStore: reduxStore.getState()}};
 }
 

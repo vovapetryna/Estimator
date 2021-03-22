@@ -28,7 +28,7 @@ class Endpoint {
   }
 }
 
-export const root = "http://localhost:9001/api/v1";
+export const root = "http://a125130cd0288462ab97ea347c4339c8-2072835968.eu-west-3.elb.amazonaws.com/api/v1";
 
 export const loginPageEndpoint = new Endpoint('/', false);
 export const loginEndpoint = new Endpoint(`${root}/login`, true);

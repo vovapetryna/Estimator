@@ -18,13 +18,13 @@ object Main extends App with LazyLogging {
   implicit val dialect: PostgresDialect = new slick.migration.api.PostgresDialect
 
 //  initial migrations
-//  db.run(postgresql.AccountTable.init).onComplete(println)
-//  db.run(for {
-//      _ <- postgresql.TaskTable.init
-//      _ <- postgresql.TaskRelationTable.init
-//      _ <- postgresql.TaskActionTable.init
-//    } yield Unit)
-//    .onComplete(println)
+  db.run(postgresql.AccountTable.init).onComplete(println)
+  db.run(for {
+      _ <- postgresql.TaskTable.init
+      _ <- postgresql.TaskRelationTable.init
+      _ <- postgresql.TaskActionTable.init
+    } yield Unit)
+    .onComplete(println)
 //  migrate security update
 //  db.run(postgresql.AccountTable.migrate.apply()).onComplete(println)
 

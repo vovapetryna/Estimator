@@ -2,6 +2,7 @@ import akka.http.scaladsl.server.{Directives, Route}
 import akkahttp.directives.SessionDirectives
 import com.softwaremill.session.{InMemoryRefreshTokenStorage, RefreshTokenStorage, SessionConfig, SessionManager}
 import com.typesafe.config.Config
+import shared.Session
 
 import scala.concurrent.ExecutionContext
 
@@ -20,8 +21,8 @@ class EndpointRoutes(val db: postgresql.PostgresProfile.api.Database, val config
 
   import com.softwaremill.macwire._
   def routes(): Route =
-    authRequired { implicit session =>
+    { implicit val session: Session = shared.Session(1, "cors", "Session", "Disabled")
       wire[handlers.tasks.Handler].routes
     } ~
-      wire[handlers.auth.Handler].routes()
+      wire[handlers.auth.Handler].routes() ~ path("ping") { complete("alive") }
 }
